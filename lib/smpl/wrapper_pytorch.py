@@ -34,6 +34,7 @@ class SMPLPyTorchWrapperBatch(nn.Module):
         if pose is None:
             self.pose = nn.Parameter(torch.zeros(batch_sz, pose_param_num))
         else:
+            print(pose.shape)
             assert pose.ndim == 2, f'the given pose shape {pose.shape} is not a batch pose'
             assert pose.shape[1] == pose_param_num, f'given pose param shape {pose.shape} ' \
                                                     f'does not match the model selected: hands={hands}'
@@ -62,7 +63,8 @@ class SMPLPyTorchWrapperBatch(nn.Module):
             torch_pose_obj_data(self.model_root, batch_size=batch_sz)
 
     def forward(self):
-        verts, jtr, tposed, naked = self.smpl(self.pose,
+        # print('pose_axisang:',pose_axisang.shape,"betas:",self.betas.shape,"trans:",self.trans.shape,"offsets:",self.offsets.shape)
+        verts, jtr, tposed, naked = self.smpl(self.pose,                                           
                                               th_betas=self.betas,
                                               th_trans=self.trans,
                                               th_offsets=self.offsets)
@@ -71,7 +73,7 @@ class SMPLPyTorchWrapperBatch(nn.Module):
     def get_landmarks(self):
         """Computes body25 joints for SMPL along with hand and facial landmarks"""
 
-        verts, _, _, _ = self.smpl(self.pose,
+        verts, _, _, _ = self.smpl(self.pose,pose_axisang,
                                   th_betas=self.betas,
                                   th_trans=self.trans,
                                   th_offsets=self.offsets)
@@ -107,6 +109,7 @@ class SMPLPyTorchWrapperBatchSplitParams(nn.Module):
                  num_betas=300):
         super(SMPLPyTorchWrapperBatchSplitParams, self).__init__()
         self.model_root = model_root
+        
         if top_betas is None:
             self.top_betas = nn.Parameter(torch.zeros(batch_sz, TOP_BETA_NUM))
         else:
@@ -134,13 +137,17 @@ class SMPLPyTorchWrapperBatchSplitParams(nn.Module):
             assert body_pose.ndim == 2
             self.body_pose = nn.Parameter(body_pose)
         hand_pose_num = HAND_POSE_NUM if hands else SMPL_HAND_POSE_NUM
+        print("init hand_pose_num in SMPLPyTorchWrapperBatchSplitParams:",hand_pose_num)
+        # print("check hand_pose is None:",hand_pose)
         if hand_pose is None:
             self.hand_pose = nn.Parameter(torch.zeros(batch_sz, hand_pose_num))
         else:
             assert hand_pose.ndim == 2
             assert hand_pose.shape[
                        1] == hand_pose_num, f'given hand pose dim {hand_pose.shape} does not match target model hand pose num of {hand_pose_num}'
-            self.hand_pose = nn.Parameter(hand_pose)
+            # self.hand_pose = nn.Parameter(hand_pose)
+            #in this case we assume obtained hand_pose and no need to optimize it
+            self.hand_pose = hand_pose
 
         if trans is None:
             self.trans = nn.Parameter(torch.zeros(batch_sz, 3))

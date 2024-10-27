@@ -11,7 +11,7 @@ from pytorch3d.io import save_ply, load_ply, load_obj
 import pickle as pkl
 import numpy as np
 import json
-from psbody.mesh import MeshViewer, Mesh
+# from psbody.mesh import MeshViewer, Mesh
 from lib.smpl.priors.th_hand_prior import mean_hand_pose
 from lib.smpl.priors.th_smpl_prior import get_prior
 from lib.smpl.wrapper_pytorch import SMPLPyTorchWrapperBatch
@@ -236,7 +236,7 @@ class BaseFitter(object):
         if ret_cent:
             return th_scan_meshes, torch.stack(centers, 0).to(device)
         return th_scan_meshes
-
+    #we can use kaolin for rendering the meshes
     def viz_fitting(self, smpl, th_scan_meshes, ind=0,
                     smpl_vc=np.array([0, 1, 0]), **kwargs):
         verts, _, _, _ = smpl()

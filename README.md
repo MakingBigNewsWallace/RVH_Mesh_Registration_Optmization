@@ -1,3 +1,11 @@
+#This repo has been modified to optimize SMPLH mesh by 2d keypoints as testing demo
+run this cmd
+```
+python opt_demo_file/fit_from_smpl.py --image_path opt_demo_file/593.jpg --smpl_file opt_demo_file/593_smplh.pkl --mano_file opt_demo_file/593_MANO_hand.pkl --pose_file opt_demo_file/593_2dkeypoints.npz --save_path opt_demo_file --gender male
+```
+
+
+
 # RVH Mesh registration repository
 This repository collects methods to register SMPL model to point clouds or 3D scans.
 If you use this code please cite: </br>

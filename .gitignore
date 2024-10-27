@@ -9,6 +9,16 @@ __pycache__/
 
 # Folder with data
 data
-
+#pkl data files
+*.pkl
+*.npy
+*.npz
+*.obj
 # asstes for running the repo
 asstes/*
+smpl_assets
+# all images and videos
+*.png
+*.jpg
+*.jpeg
+*.mp4

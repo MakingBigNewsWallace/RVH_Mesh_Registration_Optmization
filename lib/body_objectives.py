@@ -207,3 +207,29 @@ def batch_3djoints_loss(pc_bodyjoints, smpl_bodyjoints):
     mse_sum = torch.sum(loss, axis=-1)*pc_bodyjoints[:,:, 3]
     mse_weighted = torch.matmul(mse_sum, weights)
     return torch.mean(mse_weighted)
+
+def batch_2djoints_loss(pc_bodyjoints, smpl_bodyjoints):
+    """
+    mse loss between 2d keyjoints in pc and SMPL body joints, weighted
+
+    pc_bodyjoints: (B, N, 3), the third column is prediction score
+    smpl_bodyjoints: (B, N, 2)
+    """
+    #maybe in coco format, we need to regress 2d joints from smpl verts
+    #don't have weights definition for coco joints
+    # if pc_bodyjoints.shape[1]==25:
+    #     weights = body_keypoints_weights
+    # else:
+    #     weights = joint_weights
+    # weights = weights.to(pc_bodyjoints.device)
+    # print(pc_bodyjoints.shape, smpl_bodyjoints.shape)
+    # mask_wirst_feet= torch.ones_like(pc_bodyjoints[:,:,2]).to(pc_bodyjoints.device)
+    # mask_wirst_feet[:,7]=0
+    # mask_wirst_feet[:,4]=0
+    # mask_wirst_feet[:,10]=0
+    # mask_wirst_feet[:,13]=0
+    loss = mse_loss(pc_bodyjoints[:, :, :2], smpl_bodyjoints, reduction='none')
+    # conf_mask = pc_bodyjoints[:, :, 2] > 0.5
+    mse_sum = torch.sum(loss, axis=-1)*pc_bodyjoints[:,:, 2]#*mask_wirst_feet
+    # mse_weighted = torch.matmul(mse_sum, weights)
+    return torch.mean(mse_sum)

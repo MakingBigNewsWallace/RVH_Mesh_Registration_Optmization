@@ -36,7 +36,8 @@ class SMPLDFitter(SMPLHFitter):
 
         # Load scans and center them. Once smpl is registered, move it accordingly.
         # Do not forget to change the location of 3D joints/ landmarks accordingly.
-        th_scan_meshes = self.load_scans(scans)
+        th_scan_me
+        shes = self.load_scans(scans)
 
         # optimize offsets
         self.optimize_offsets(th_scan_meshes, smpl, 4, 10)

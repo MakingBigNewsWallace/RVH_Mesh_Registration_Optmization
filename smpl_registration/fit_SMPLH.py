@@ -40,6 +40,7 @@ class SMPLHFitter(BaseFitter):
 
         th_pose_3d = None
         if pose_files is not None:
+            # body keypoints
             th_pose_3d = self.load_j3d(pose_files)
 
             # Optimize pose first
@@ -218,7 +219,7 @@ if __name__ == "__main__":
     parser.add_argument('--display', default=False, action='store_true')
     parser.add_argument("--config-path", "-c", type=Path, default="config.yml",
                         help="Path to yml file with config")
-    parser.add_argument('-hands', default=False, action='store_true', help='use SMPL+hand model or not')
+    parser.add_argument('-hands', default=True, action='store_true', help='use SMPL+hand model or not')
     args = parser.parse_args()
 
     # args.scan_path = 'data/mesh_1/scan.obj'
