@@ -14,11 +14,11 @@ decorator
 ffmpeg
 freetype
 future
-# fvcore
+fvcore
 gmp
 gnutls
 intel-openmp
-# iopath
+iopath
 ipython
 ipython_genutils
 jedi

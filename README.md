@@ -1,5 +1,13 @@
-#This repo has been modified to optimize SMPLH mesh by 2d keypoints as testing demo
-run this cmd
+# This repo has been modified to optimize SMPLH mesh by 2d keypoints as testing demo
+The requirement txt is modified and can be used. User needs to install pytorch and torchvision according to their CUDA version. torch2.1+cu121 is recommanded.  Also the kaolin render is needer for rendering mesh. Some packages may also needs to be installed, please follow the error report.
+For kaolin render and render assets, can download from this [google drive link](https://drive.google.com/drive/folders/19NPJBvsN4fO9eludXmk8TpiFlRtRd9Za?usp=drive_link).
+```bash
+pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
+# install kaolin==0.15/0.16 for kaolin render
+pip install kaolin==0.15.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.1.0_cu121.html
+```
+
+run this cmd to check the image based 2D-keypoint SMPL param optimization
 ```
 python opt_demo_file/fit_from_smpl.py --image_path opt_demo_file/593.jpg --smpl_file opt_demo_file/593_smplh.pkl --mano_file opt_demo_file/593_MANO_hand.pkl --pose_file opt_demo_file/593_2dkeypoints.npz --save_path opt_demo_file --gender male
 ```
